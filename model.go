@@ -90,9 +90,7 @@ func LoadModel(filename string) (*Model, error) {
 	if model.model == nil {
 		return nil, errors.New("Cannot read model: " + filename)
 	}
-
 	runtime.SetFinalizer(model, finalizeModel)
-
 	return model, nil
 }
 
@@ -119,6 +117,15 @@ func (model *Model) Labels() []int {
 	copy(model.labelCache, labels)
 
 	return labels
+}
+
+func (model *Model) DropModel() {
+	finalizeModel(model)
+}
+
+// Get number class after training
+func (model *Model) GetNrClasses() int {
+	return int(C.get_nr_class_wrap(model.model))
 }
 
 // Predict the label of an instance using the given model.
