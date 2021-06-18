@@ -1,3 +1,3 @@
 module github.com/killer-djon/golinear
 
-go 1.13
+go 1.15
